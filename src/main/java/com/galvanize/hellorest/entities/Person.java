@@ -6,6 +6,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Person {
     Long id;
@@ -13,12 +15,12 @@ public class Person {
     String email;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "MM/dd/yyyy")
-    LocalDate birthDate;
+    Date birthDate;
 
     public Person() {
     }
 
-    public Person(String name, String email, LocalDate birthDate) {
+    public Person(String name, String email, Date birthDate) {
         this.name = name;
         this.email = email;
         this.birthDate = birthDate;
@@ -37,7 +39,7 @@ public class Person {
     public void setId(Long id) {
         this.id = id;
     }
-    public Person(Long id, String name, String email, LocalDate birthDate) {
+    public Person(Long id, String name, String email, Date birthDate) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -62,19 +64,31 @@ public class Person {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonFormat(pattern = "MM/dd/yyyy")
-    public LocalDate getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public Integer getAge(){
-        if (this.birthDate != null) {
-            return Period.between(this.birthDate, LocalDate.now()).getYears();
-        }
-        return null;
+//    @JsonInclude(JsonInclude.Include.NON_NULL)
+//    public Integer getAge(){
+//        if (this.birthDate != null) {
+//            return Period.between(this.birthDate, LocalDate.now()).getYears();
+//        }
+//        return null;
+//    }
+
+    public int getAge() {
+        Calendar c = Calendar.getInstance();
+        c.setTime(this.birthDate);
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1;
+        int day = c.get(Calendar.DATE);
+        LocalDate ll = LocalDate.of(year, month, day);
+        LocalDate now = LocalDate.now();
+        Period diff = Period.between(ll, now);
+        return diff.getYears();
     }
 }

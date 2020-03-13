@@ -16,7 +16,7 @@ public class PersonRepository {
     {
         people.add(new Person(nextId++, "Larry", "larry.hendrix@galvanize.com"));
         people.add(new Person(nextId++, "Kay", "kay.hudson@galvanize.com"));
-        people.add(new Person(nextId++, "Rob", "rob.wing@galvanize.com", LocalDate.of(1962, 11, 16)));
+//        people.add(new Person(nextId++, "Rob", "rob.wing@galvanize.com", LocalDate.of(1962, 11, 16)));
     }
 
     //CREATE

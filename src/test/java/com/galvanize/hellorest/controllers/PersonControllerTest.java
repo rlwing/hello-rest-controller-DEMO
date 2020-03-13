@@ -1,5 +1,6 @@
 package com.galvanize.hellorest.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.galvanize.hellorest.entities.Person;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.sql.Date;
+import java.time.LocalDate;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -27,10 +31,10 @@ class PersonControllerTest {
     @Test
     void helloPerson() {
         PersonController personController = new PersonController();
-        Person person = personController.createGetPerson("Rob", "rob.wing@galvanize.com",
-                "1962-11-16");
+//        Person person = personController.createGetPerson("Rob", "rob.wing@galvanize.com",
+//                "1962-11-16");
 
-        assertNotNull(person);
+//        assertNotNull(person);
 
     }
 
@@ -60,11 +64,10 @@ class PersonControllerTest {
                 .andDo(print());
     }
 
-//    @Test
-//    void testNewLocalDate() throws JsonProcessingException {
-//        Person person = new Person("Rob", "rob.wing@galvanize.com", LocalDate.now());
-//        System.out.println(mapper.writeValueAsString(person));
-//
-////        {"id":null,"name":"Rob","email":"rob.wing@galvanize.com","birthDate":{"year":2020,"month":"MARCH","monthValue":3,"dayOfMonth":12,"era":"CE","dayOfYear":72,"dayOfWeek":"THURSDAY","leapYear":true,"chronology":{"id":"ISO","calendarType":"iso8601"}},"age":0}
-//    }
+    @Test
+    void testNewLocalDate() throws JsonProcessingException {
+        Person person = new Person("Rob", "rob.wing@galvanize.com", Date.valueOf(LocalDate.of(1962, 11, 16)));
+        System.out.println(mapper.writeValueAsString(person));
+
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -16,15 +17,15 @@ public class PersonController {
     @Autowired
     PersonRepository personRepository;
 
-    @GetMapping("/person1")
-    public Person createGetPerson(@RequestParam String name,
-                                @RequestParam String email,
-                                @RequestParam String birthDate){
-
-        LocalDate bd = LocalDate.parse(birthDate);
-        return new Person(name, email, bd);
-
-    }
+//    @GetMapping("/person1")
+//    public Person createGetPerson(@RequestParam String name,
+//                                @RequestParam String email,
+//                                @RequestParam String birthDate){
+//
+//        Date bd = LocalDate.parse(birthDate);
+//        return new Person(name, email, bd);
+//
+//    }
 
     /*** CREATE ***/
     @PostMapping("/person")
