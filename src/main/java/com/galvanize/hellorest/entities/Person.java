@@ -1,6 +1,7 @@
 package com.galvanize.hellorest.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -80,6 +81,11 @@ public class Person {
 //        return null;
 //    }
 
+    @JsonIgnore
+    public void setAge(int age){
+        System.out.println("Ignoring the age of '"+age+"'");
+    }
+
     public int getAge() {
         Calendar c = Calendar.getInstance();
         c.setTime(this.birthDate);
@@ -90,5 +96,16 @@ public class Person {
         LocalDate now = LocalDate.now();
         Period diff = Period.between(ll, now);
         return diff.getYears();
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", birthDate=" + birthDate +
+                ", age="+getAge()+
+                '}';
     }
 }

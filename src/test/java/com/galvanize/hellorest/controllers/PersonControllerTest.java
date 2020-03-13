@@ -67,7 +67,13 @@ class PersonControllerTest {
     @Test
     void testNewLocalDate() throws JsonProcessingException {
         Person person = new Person("Rob", "rob.wing@galvanize.com", Date.valueOf(LocalDate.of(1962, 11, 16)));
-        System.out.println(mapper.writeValueAsString(person));
+        String sPerson = mapper.writeValueAsString(person);
+        System.out.println(sPerson);
+
+        Person person1 = mapper.readValue(sPerson, Person.class);
+        System.out.println(person1);
+
+
 
     }
 }
