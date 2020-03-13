@@ -1,5 +1,6 @@
 package com.galvanize.hellorest.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,9 +12,16 @@ public class Person {
     String name;
     String email;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "MM/dd/yyyy")
     LocalDate birthDate;
 
     public Person() {
+    }
+
+    public Person(String name, String email, LocalDate birthDate) {
+        this.name = name;
+        this.email = email;
+        this.birthDate = birthDate;
     }
 
     public Person(Long id, String name, String email) {
@@ -53,6 +61,7 @@ public class Person {
     }
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonFormat(pattern = "MM/dd/yyyy")
     public LocalDate getBirthDate() {
         return birthDate;
     }
