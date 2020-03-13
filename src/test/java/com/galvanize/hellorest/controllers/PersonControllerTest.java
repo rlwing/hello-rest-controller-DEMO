@@ -44,7 +44,7 @@ class PersonControllerTest {
 
     @Test
     void createPerson() throws Exception {
-        String body = "{\"name\":\"Rob\",\"email\":\"rob.wing@galvanize.com\",\"birthDate\":\"1962-11-16\"}";
+        String body = "{\"name\":\"Rob\",\"email\":\"rob.wing@galvanize.com\",\"birthDate\":\"11/16/1962\"}";
         mvc.perform(post("/api/person").content(body).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists())
