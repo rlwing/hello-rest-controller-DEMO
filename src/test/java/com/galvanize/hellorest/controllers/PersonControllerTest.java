@@ -28,21 +28,30 @@ class PersonControllerTest {
 
     ObjectMapper mapper = new ObjectMapper();
 
-    @Test
-    void helloPerson() {
-        PersonController personController = new PersonController();
+//    @Test
+//    void helloPerson() {
+//        PersonController personController = new PersonController();
 //        Person person = personController.createGetPerson("Rob", "rob.wing@galvanize.com",
 //                "1962-11-16");
-
+//
 //        assertNotNull(person);
+//
+//    }
 
-    }
+//    @Test
+//    void helloPersonMvc() throws Exception {
+//        mvc.perform(get("/api/person?name=Rob&email=rob.wing@galvanize.com&birthDate=1962-11-16"))
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andExpect(content().string(containsString("rob.wing@galvanize.com")));
+//    }
+
 
     @Test
-    void helloPersonMvc() throws Exception {
-        mvc.perform(get("/api/person1?name=Rob&email=rob.wing@galvanize.com&birthDate=1962-11-16"))
+    void helloPersonMvc2() throws Exception {
+        String sPerson = mapper.writeValueAsString(new Person("Rob", "rob.wing@galvanize.com", Date.valueOf(LocalDate.of(1962, 11, 16))));
+        mvc.perform(post("/api/person").contentType(MediaType.APPLICATION_JSON).content(sPerson))
                 .andExpect(status().isOk())
-                .andDo(print())
                 .andExpect(content().string(containsString("rob.wing@galvanize.com")));
     }
 
