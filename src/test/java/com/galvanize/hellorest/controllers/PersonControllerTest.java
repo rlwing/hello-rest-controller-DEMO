@@ -1,6 +1,9 @@
 package com.galvanize.hellorest.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.galvanize.hellorest.entities.Person;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -23,6 +28,11 @@ class PersonControllerTest {
     MockMvc mvc;
 
     ObjectMapper mapper = new ObjectMapper();
+    {
+        // This is how to get java.time.LocalDate to parse and deserialize properly
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    }
 
     @Test
     void helloPerson() {
@@ -44,7 +54,9 @@ class PersonControllerTest {
 
     @Test
     void createPerson() throws Exception {
-        String body = "{\"name\":\"Rob\",\"email\":\"rob.wing@galvanize.com\",\"birthDate\":\"11/16/1962\"}";
+//        String body = "{\"name\":\"Rob\",\"email\":\"rob.wing@galvanize.com\",\"birthDate\":\"11/16/1962\"}";
+        Person person = new Person("Rob", "rob.wing@galvanize.com", LocalDate.now());
+        String body = mapper.writeValueAsString(person);
         mvc.perform(post("/api/person").content(body).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists())
@@ -60,11 +72,10 @@ class PersonControllerTest {
                 .andDo(print());
     }
 
-//    @Test
-//    void testNewLocalDate() throws JsonProcessingException {
-//        Person person = new Person("Rob", "rob.wing@galvanize.com", LocalDate.now());
-//        System.out.println(mapper.writeValueAsString(person));
-//
-////        {"id":null,"name":"Rob","email":"rob.wing@galvanize.com","birthDate":{"year":2020,"month":"MARCH","monthValue":3,"dayOfMonth":12,"era":"CE","dayOfYear":72,"dayOfWeek":"THURSDAY","leapYear":true,"chronology":{"id":"ISO","calendarType":"iso8601"}},"age":0}
-//    }
+    @Test
+    void testNewLocalDate() throws JsonProcessingException {
+        Person person = new Person("Rob", "rob.wing@galvanize.com", LocalDate.now());
+        System.out.println(mapper.writeValueAsString(person));
+
+    }
 }
