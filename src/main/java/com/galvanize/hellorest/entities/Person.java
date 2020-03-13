@@ -81,9 +81,10 @@ public class Person {
 //        return null;
 //    }
 
+    // This is required because when the string has the age field, Jackson won't know what to do with it.  Adding the empty set method fakes it out.
     @JsonIgnore
     public void setAge(int age){
-        System.out.println("Ignoring the age of '"+age+"'");
+        //Method won't be called by the Jackson parser
     }
 
     public int getAge() {
